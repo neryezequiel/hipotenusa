@@ -1,0 +1,90 @@
+<!-- filepath: c:\Users\52272\Desktop\NERY_WEB\HIPOTENUSA.HTML -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Hipotenusa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            margin: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .resultado {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculadora de Hipotenusa</h1>
+    <p>Introduce las longitudes de los dos catetos:</p>
+    <form id="hipotenusaForm">
+        <input type="number" id="cateto1" placeholder="Primer cateto" required>
+        <input type="number" id="cateto2" placeholder="Segundo cateto" required>
+        <button type="button" onclick="calcularHipotenusa()">Calcular Hipotenusa</button>
+    </form>
+    <p class="resultado" id="resultado"></p>
+
+    <button onclick="generarQR()">Generar Código QR para esta página</button>
+    <div id="qrcode"></div>
+
+    <script src="qrcode.min.js"></script>
+    <script>
+        function calcularHipotenusa() {
+            // Obtener los valores de los catetos
+            const cateto1 = parseFloat(document.getElementById('cateto1').value);
+            const cateto2 = parseFloat(document.getElementById('cateto2').value);
+
+            // Verificar que los valores sean válidos
+            if (isNaN(cateto1) || isNaN(cateto2)) {
+                alert("Por favor, introduce valores numéricos.");
+                return;
+            }
+
+            // Calcular la hipotenusa usando el teorema de Pitágoras
+            const hipotenusa = Math.sqrt(Math.pow(cateto1, 2) + Math.pow(cateto2, 2));
+
+            // Mostrar el resultado en la página
+            document.getElementById('resultado').textContent = `Hipotenusa: ${hipotenusa.toFixed(2)}`;
+        }
+
+        function generarQR() {
+            // Eliminar cualquier código QR previo
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = "";
+
+            // URL de la página (cambia esto por la URL de tu página en el servidor)
+            const url = "https://github.com/neryezequiel/hipotenusa.git"; // Reemplaza con tu URL real
+
+            // Generar un nuevo código QR
+            const qrCode = new QRCode(qrContainer, {
+                text: url,
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
